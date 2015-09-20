@@ -1,0 +1,190 @@
+# everything after a # is a comment and thus ignored
+
+# these are commands that can be executed on files. (see below)
+#
+# there are a few special variables, all starting with an underscore:
+# _FILE is the complete (globbed) file including path
+# _FILE_NAME is the filename without path
+# _EPNUM is the number of the episode (beginning of ep name)
+# _EPNAME is the name of the ep, fetched from thetvdb, using SEASON and _EPNUM
+
+#
+# >> definition of commands
+#
+
+# a cmd has a name, and includes everything up to the next empty line
+#
+# the variables can be formatted in a more complex manner, see:
+# http://docs.python.org/library/string.html#formatspec
+# for example, {_EPNAME:02d} will format _EPNAME to be padded with zeroes
+# to be two letters long.
+		
+CMD UNDRM
+        java -cp {PATH_REQUIEM} UnDrm "{_FILE}" "{DIR_OUT_UNDRM}{1080P}/{_FILE_NAME}"
+
+CMD 7T
+        {PATH_MKVMERGE} -o "{DIR_OUT_7T}/YP-7T-{SEASON:02d}x{_EPNUM:02d}.mkv"
+                --language "0:eng" --track-name "0:[ENG] AAC 2.0"
+                    --default-track "0:no" --forced-track "0:no" --compression "0:none"
+                --language "1:eng" --track-name "1:S{SEASON:02d}E{_EPNUM:02d} : {_EPNAME}"
+                    --default-track "1:yes" --forced-track "1:no" --compression "1:none"
+                --language "2:eng" --track-name "2:[ENG] AC3 5.1"
+                    --default-track "2:yes" --forced-track "2:no" --compression "2:none"
+            -a "0,2" -d "1" -S -T --no-global-tags --no-chapters "{_FILE}"
+				--track-order "0:1,0:2,0:0" --engage no_cue_duration,no_cue_relative_position
+
+CMD 1T
+        {PATH_MKVMERGE} -o "{DIR_OUT_1T}/YP-1T-{SEASON:02d}x{_EPNUM:02d}.mkv"
+                --language "0:eng" --track-name "0:[ENG] AAC 2.0"
+                    --default-track "0:no" --forced-track "0:no" --compression "0:none"
+                --language "1:eng" --track-name "1:S{SEASON:02d}E{_EPNUM:02d} : {_EPNAME}"
+                    --default-track "1:yes" --forced-track "1:no" --compression "1:none"
+                --language "2:eng" --track-name "2:[ENG] AC3 5.1"
+                    --default-track "2:yes" --forced-track "2:no" --compression "2:none"
+            -a "0,2" -d "1" -S -T --no-global-tags --no-chapters "{_FILE}"
+				--track-order "0:1,0:2,0:0" --engage no_cue_duration,no_cue_relative_position
+
+CMD 7R
+        {PATH_MKVMERGE} -o "{DIR_OUT_7R}/YP-7R-{SEASON:02d}x{_EPNUM:02d}.mkv"
+                --language "0:eng" --track-name "0:[ENG] AAC 2.0"
+                    --default-track "0:no" --forced-track "0:no" --compression "0:none"
+                --language "1:eng" --track-name "1:S{SEASON:02d}E{_EPNUM:02d} : {_EPNAME}"
+                    --default-track "1:yes" --forced-track "1:no" --compression "1:none"
+                --language "2:eng" --track-name "2:[ENG] AC3 5.1"
+                    --default-track "2:yes" --forced-track "2:no" --compression "2:none"
+            -a "0,2" -d "1" -S -T --no-global-tags --no-chapters "{_FILE}"
+                --language "0:eng" --track-name "0:[ENG]"
+                    --default-track "0:no" --forced-track "0:no"
+            -s "0" -D -A -T --no-global-tags --no-chapters "{DIR_SUBTITLES}/{SEASON:02d}x{_EPNUM:02d}.srt"
+                --track-order "0:1,0:2,0:0,1:0" --engage no_cue_duration,no_cue_relative_position
+			
+CMD 7RH
+        {PATH_MKVMERGE} -o "{DIR_OUT_7R}/YP-7R-{SEASON:02d}x{_EPNUM:02d}.mkv"
+                --language "0:eng" --track-name "0:[ENG] AAC 2.0"
+                    --default-track "0:no" --forced-track "0:no" --compression "0:none"
+                --language "1:eng" --track-name "1:S{SEASON:02d}E{_EPNUM:02d} : {_EPNAME}"
+                    --default-track "1:yes" --forced-track "1:no" --compression "1:none"
+                --language "2:eng" --track-name "2:[ENG] AC3 5.1"
+                    --default-track "2:yes" --forced-track "2:no" --compression "2:none"
+            -a "0,2" -d "1" -S -T --no-global-tags --no-chapters "{_FILE}"
+                --language "0:eng" --track-name "0:[ENG]"
+                    --default-track "0:no" --forced-track "0:no"
+            -s "0" -D -A -T --no-global-tags --no-chapters "{DIR_SUBTITLES}/{SEASON:02d}x{_EPNUM:02d}.srt"				
+				--language "0:eng" --track-name "0:[ENG] Hearing impaired"
+					--default-track "0:no" --forced-track "0:no"
+			-s "0" -D -A -T --no-global-tags --no-chapters "{DIR_SUBTITLES}/{SEASON:02d}x{_EPNUM:02d}.HoH.srt"
+                --track-order "0:1,0:2,0:0,1:0" --engage no_cue_duration,no_cue_relative_position
+				
+CMD 1R
+        {PATH_MKVMERGE} -o "{DIR_OUT_1R}/YP-1R-{SEASON:02d}x{_EPNUM:02d}.mkv"
+                --language "0:eng" --track-name "0:[ENG] AAC 2.0"
+                    --default-track "0:no" --forced-track "0:no" --compression "0:none"
+                --language "1:eng" --track-name "1:S{SEASON:02d}E{_EPNUM:02d} : {_EPNAME}"
+                    --default-track "1:yes" --forced-track "1:no" --compression "1:none"
+                --language "2:eng" --track-name "2:[ENG] AC3 5.1"
+                    --default-track "2:yes" --forced-track "2:no" --compression "2:none"
+            -a "0,2" -d "1" -S -T --no-global-tags --no-chapters "{_FILE}"
+                --language "0:eng" --track-name "0:[ENG]"
+                    --default-track "0:no" --forced-track "0:no"
+            -s "0" -D -A -T --no-global-tags --no-chapters "{DIR_SUBTITLES}/{SEASON:02d}x{_EPNUM:02d}.srt"
+                --track-order "0:1,0:2,0:0,1:0" --engage no_cue_duration,no_cue_relative_position
+
+		
+CMD 1RH
+        {PATH_MKVMERGE} -o "{DIR_OUT_1R}/YP-1R-{SEASON:02d}x{_EPNUM:02d}.mkv"
+                --language "0:eng" --track-name "0:[ENG] AAC 2.0"
+                    --default-track "0:no" --forced-track "0:no" --compression "0:none"
+                --language "1:eng" --track-name "1:S{SEASON:02d}E{_EPNUM:02d} : {_EPNAME}"
+                    --default-track "1:yes" --forced-track "1:no" --compression "1:none"
+                --language "2:eng" --track-name "2:[ENG] AC3 5.1"
+                    --default-track "2:yes" --forced-track "2:no" --compression "2:none"
+            -a "0,2" -d "1" -S -T --no-global-tags --no-chapters "{_FILE}"
+                --language "0:eng" --track-name "0:[ENG]"
+                    --default-track "0:no" --forced-track "0:no"
+            -s "0" -D -A -T --no-global-tags --no-chapters "{DIR_SUBTITLES}/{SEASON:02d}x{_EPNUM:02d}.srt"
+				--language "0:eng" --track-name "0:[ENG] Hearing impaired"
+					--default-track "0:no" --forced-track "0:no"
+			-s "0" -D -A -T --no-global-tags --no-chapters "{DIR_SUBTITLES}/{SEASON:02d}x{_EPNUM:02d}.HoH.srt"
+                --track-order "0:1,0:2,0:0,1:0" --engage no_cue_duration,no_cue_relative_position
+
+		
+#
+# >> definition of variables
+#
+
+#
+# these vars have special significance, and need to be set
+#
+
+# input directory, this is used as base path for the filenames in commands,
+# and there needs to be one DIR_IN_COMMANDNAME for each command!
+# DIR_IN  C:/Ponies/
+DIR_IN_7T  B:\UnDRM\720\
+DIR_IN_7R  B:\UnDRM\720\
+DIR_IN_7RH  B:\UnDRM\720\
+DIR_IN_1T  B:\UnDRM\1080\
+DIR_IN_1R  B:\UnDRM\1080\
+DIR_IN_1RH  B:\UnDRM\1080\
+DIR_IN_UNDRM  B:\iTunes Data\iTunes\iTunes Media\TV Shows\My Little Pony_ Friendship Is Magic
+
+# Just print command 
+DRY_RUN no
+# season, this is used for tvdb fetching
+SEASON 4
+
+#
+# all variables below are just used as-is in the cmds above, nothing else
+# variables starting with DIR_ will need to be valid directories
+# variables starting with PATH_ will need to be valid files
+# everything else are just arbitrary variables
+#
+
+# requiem path
+# REQUIEM C:/yayponies/requiem/requiem.exe
+PATH_REQUIEM C:\yayponies\requiem\requiem.exe
+# mkvmerge path
+# MKVMERGE "C:/Program Files/mkvmerge/mkvmerge.exe"
+PATH_MKVMERGE C:\MKVToolNix\mkvmerge.exe
+
+# input directory for subtitles
+DIR_SUBTITLES C:\Users\YayPonies\Sub
+
+# output directory from requiem
+DIR_OUT_UNDRM b:\UnDRM\
+# output directory from mkvmerge
+DIR_OUT_7T B:\
+DIR_OUT_7R B:\
+DIR_OUT_7RH B:\
+DIR_OUT_1R B:\
+DIR_OUT_1RH B:\
+DIR_OUT_1T B:\
+
+?1080P Is this 1080p hd?
+1080P_1 1080
+1080P_0 720
+#
+# >> actual commands to be executed
+#
+
+# every non-comment non-blank line after this will be considered a command
+COMMANDS
+
+# the * is a wildcard and completes if the filename is unique
+# if you have 1 to 26 in a list like this, you can just un-comment
+# the episode you want to process and run the script
+
+# explicit filenames are possible as well, of course
+# this one will fail because there is no episode number (for tvdb fetching)
+# 7Y SOMETHING BLAH.mp4
+
+UNDRM 04*
+1RH 04*
+7RH 04*
+1T 04*
+7T 04*
+1R 04*
+7R 04*
+
+# this particular config file would try to run the UNDRM, 7T and 7Y commands on
+# the "5 Sisterhooves Social.mkv" file, and, and 7T and 7Y on 6 * (resolving
+# wildcards)

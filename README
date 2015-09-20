@@ -1,0 +1,83 @@
+YayPonies AutoPony 1.1
+
+What it does :
+
+Correctly configurated, it take iTunes ponies (with DRM), remove DRM, check the episode name on 
+thetvdb and remux (with correct info) the episodes, creating a publishable file, or files.
+
+It's able to do both 720P and 1080P in the same time.
+---
+
+How it work :
+
+Autopony doesn't take argument from command line, the config file is the only place where you need to 
+configure things, when configured properly, it will work as soon as you launch it.
+---
+
+Config files :
+
+>> definition of commands
+
+A cmd has a name, and includes everything up to the next empty line
+
+the variables can be formatted in a more complex manner, see:
+http://docs.python.org/library/string.html#formatspec
+for example, {_EPNAME:02d} will format _EPNAME to be padded with zeroes
+to be two letters long.
+
+>> definition of variables
+
+Vars that used by commands need to be definied at this part, those vars are:
+
+Input directory, this is used as base path for the filenames in commands,
+and there needs to be one DIR_IN_COMMAND for each command, it's used for MKVMerge!
+DIR_IN_COMMAND  B:\COMMAND
+
+DIR_IN_UNDRM is the variable used to define path of iTunes DRM'd file.
+Example : DIR_IN_UNDRM  B:\iTunes Data\iTunes\iTunes Media\TV Shows\My Little Pony_ Friendship Is Magic
+
+>> Options
+
+DRY_RUN (yes|no) = If this option is enabled, Autopony will print instead of launching command, used for debugging.
+SEASON (1-9) = Define season of pony.
+
+>> Variable parts 2
+
+The variable at this point of the config files define path for applications and path for output (And subtitles input).
+
+On the default configuration : 
+
+PATH_REQUIEM C:\yayponies\requiem\requiem.exe > Define that requiem (Used to remove DRM) is in C:\yayponies\requiem\requiem.exe
+PATH_MKVMERGE C:\MKVToolNix\mkvmerge.exe > Define that mkvmerge (Used to remux video) is in C:\MKVToolNix\mkvmerge.exe
+DIR_SUBTITLES C:\Users\YayPonies\Sub > Define that subtitles (Used only on *R files) are in C:\Users\YayPonies\Sub
+DIR_OUT_UNDRM b:\UnDRM\ > Tell Requiem to put the unprotected file in b:\UnDRM\
+DIR_OUT_** B:\ > Tell MKVMerge to put finished videos file from format ** to B:\
+
+>> 1080P or 720P
+
+When enabled, those lines :
+	?1080P Is this 1080p hd?
+	1080P_1 1080
+	1080P_0 720
+will make Autopony ask you what format you're doing, its only important when removing DRM, if enabled awnsering yes will put
+1080P files in a folder named 1080, 720P under 720, following the exemple, since DIR_OUT_UNDRM is b:\UnDRM, files will instead
+be in b:\UnDRM\1080 and b:\UnDRM\720.
+
+>> COMMANDS
+
+Where you define actual command,
+
+the * is a wildcard and completes if the filename is unique
+if you have 1 to 26 in a list like this, you can just un-comment
+The episode you want to process and run the script
+
+explicit filenames are possible as well, of course.
+
+so, if you have two file in the DIR_IN_UNDRM folder named 01.Derpy.m4v and 02.Hooves.m4v,
+
+UnDRM 0* > Will remove DRM from both files
+UnDRM 01* > Will remove DRM from 01.Derpy.m4v
+UnDRM 01.Derpy.m4v > Will remove DRM from 01.Derpy.m4v
+UnDRM 0 or UnDRM 01 > Will fail.
+
+Please look at definied command in the first part to know what command is working!
